@@ -6,7 +6,7 @@ on:
 
 env:
   AWS_REGION: ap-southeast-1
-  ALB_ARN: arn:aws:elasticloadbalancing:ap-southeast-1:390844768698:loadbalancer/app/udemy-devops-alb/008be0189038593a
+  ALB_ARN: arn:aws:elasticloadbalancing:ap-southeast-1:390844768698:loadbalancer/app/udemy-devops-alb/0388ee4e87569a72
 
 jobs:
   switch-traffic:
