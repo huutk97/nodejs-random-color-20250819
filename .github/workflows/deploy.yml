@@ -3,7 +3,7 @@ name: Deploy Node App via Docker Compose (SSH)
 on:
   push:
     branches:
-      - main   # Tự động chạy khi bạn push lên nhánh main
+      - feature/deployDocker   # Tự động chạy khi bạn push lên nhánh feature/deployDocker
 
 jobs:
   deploy:
