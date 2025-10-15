@@ -20,7 +20,7 @@ jobs:
         with:
           host: 192.168.110.73
           username: huutk
-          key: huutk@192.168.110.73
+          key: 1997
           script: |
             echo "🟢 Pulling latest code..."
             cd /Users/huutk/Documents/project/nodejs-random-color-20250819
