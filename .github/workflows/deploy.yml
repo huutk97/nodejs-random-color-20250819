@@ -1,31 +1,30 @@
-stages:
-  - build
-  - deploy
+name: Deploy App via Docker Compose
 
-variables:
-  DOCKER_DRIVER: overlay2
-  COMPOSE_FILE: docker-compose.yaml
+on:
+  push:
+    branches:
+      - main  # Chạy khi có commit lên nhánh main
 
-before_script:
-  # In case docker-compose is not yet executable
-  - docker --version
-  - docker-compose --version
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-# 1️⃣ Build stage: build Docker images
-build:
-  stage: build
-  script:
-    - echo "Building Docker images..."
-    - docker-compose build
-  only:
-    - main  # chỉ chạy khi commit lên nhánh main (có thể đổi thành master hoặc develop)
+    steps:
+      # 1️⃣ Checkout code từ repo
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-# 2️⃣ Deploy stage: stop old containers and start new ones
-deploy:
-  stage: deploy
-  script:
-    - echo "Deploying application..."
-    - docker-compose down
-    - docker-compose up -d --build
-  only:
-    - main
+      # 2️⃣ Cài Docker & Docker Compose (thường sẵn có trên runner)
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      # 3️⃣ Build Docker images
+      - name: Build Docker images
+        run: |
+          docker-compose build
+
+      # 4️⃣ Deploy containers
+      - name: Run Docker Compose
+        run: |
+          docker-compose down
+          docker-compose up -d --build
