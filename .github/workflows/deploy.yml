@@ -18,9 +18,9 @@ jobs:
       - name: Deploy to Remote Server
         uses: appleboy/ssh-action@v1.1.0
         with:
-          host: 203.205.13.153
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: 192.168.110.73
+          username: huutk
+          key: huutk@192.168.110.73
           script: |
             echo "🟢 Pulling latest code..."
             cd /Users/huutk/Documents/project/nodejs-random-color-20250819
