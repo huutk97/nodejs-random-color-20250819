@@ -3,7 +3,7 @@ name: Deploy App via Docker Compose
 on:
   push:
     branches:
-      - main  # Chạy khi có commit lên nhánh main
+      - feature/deployDocker  # Chạy khi có commit lên nhánh feature/deployDocker
 
 jobs:
   build-and-deploy:
