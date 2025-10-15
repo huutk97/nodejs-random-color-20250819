@@ -4,7 +4,7 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
-  COMPOSE_FILE: docker-compose.yml
+  COMPOSE_FILE: docker-compose.yaml
 
 before_script:
   # In case docker-compose is not yet executable
