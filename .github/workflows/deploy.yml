@@ -1,26 +1,44 @@
-name: Deploy App via Docker Compose
+name: Deploy Node App via Docker Compose (SSH)
 
 on:
   push:
     branches:
-      - feature/deployDocker
+      - main   # Tự động chạy khi bạn push lên nhánh main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      # 1️⃣ Lấy code mới nhất từ GitHub
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v3
+      # 2️⃣ SSH vào server để deploy
+      - name: Deploy to Remote Server
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: 203.205.13.153
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "🟢 Pulling latest code..."
+            cd /Users/huutk/Documents/project/nodejs-random-color-20250819
+            git pull
 
-      - name: Build Docker images
-        run: |
-          docker compose build
+            echo "🟡 Stopping old containers..."
+            docker compose down || true
 
-      - name: Run Docker Compose
-        run: |
-          docker compose down
-          docker compose up -d --build
+            echo "🟠 Building new Docker image (no cache)..."
+            docker compose build --no-cache
+
+            echo "🟣 Starting new containers..."
+            docker compose up -d --build
+
+            echo "🔍 Checking deployed containers..."
+            docker ps
+
+            echo "🧱 Checking images info..."
+            docker images | head -n 10
+
+            echo "✅ Deploy completed successfully!"
